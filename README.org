@@ -1,0 +1,2 @@
+* promql-mode
+  basic major mode for emacs for editing files with prometheus.io promql syntax
