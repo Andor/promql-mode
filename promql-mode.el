@@ -80,9 +80,6 @@
      "stddev_over_time"
      "stdvar_over_time"
      "count_over_time"
-     "count_values_over_time"
-     "bottomk_over_time"
-     "topk_over_time"
      "quantile_over_time")
    'words)
   "Regexp for matching functions for `promql-mode'.")
