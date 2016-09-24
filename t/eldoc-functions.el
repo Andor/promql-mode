@@ -1,5 +1,3 @@
-(require 'cl-lib)
-
 (require 'ert)
 (require 'promql-mode-eldoc)
 

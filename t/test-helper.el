@@ -34,7 +34,7 @@
      (font-lock-fontify-buffer)
      ,@body))
 
-(cl-defun promql--get-face-at-position (position)
+(defun promql--get-face-at-position (position)
   "go to selected position and return face of the current character"
   (goto-char (point-min))
   (forward-char position)

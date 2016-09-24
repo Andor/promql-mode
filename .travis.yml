@@ -1,0 +1,36 @@
+language: emacs-lisp
+sudo: true
+
+env:
+  matrix:
+    - EMACS=emacs24
+    - EMACS=emacs25
+    - EMACS=emacs-snapshot
+
+matrix:
+  allow_failures:
+    - env: EMACS=emacs25
+    - env: EMACS=emacs-snapshot
+
+install:
+  - if [ "$EMACS" = 'emacs24' ]; then
+        sudo apt-get -qq update &&
+        sudo apt-get -qq -f install &&
+        sudo apt-get -qq install emacs24 emacs24-el;
+    fi
+  - if [ "$EMACS" = 'emacs25' ]; then
+        sudo add-apt-repository -y ppa:kelleyk/emacs &&
+        sudo apt-get -qq update &&
+        sudo apt-get -qq -f install &&
+        sudo apt-get -qq install emacs25;
+    fi
+  - if [ "$EMACS" = 'emacs-snapshot' ]; then
+        sudo add-apt-repository -y ppa:ubuntu-elisp/ppa &&
+        sudo apt-get -qq update &&
+        sudo apt-get -qq -f install &&
+        sudo apt-get -qq install emacs-snapshot emacs-snapshot-el;
+    fi
+
+script:
+  - $EMACS -Q -batch -l promql-mode-words.el -l promql-mode-eldoc.el -l promql-mode.el -l t/test-helper.el -l t/eldoc-functions.el -f ert-run-tests-batch-and-exit
+  - $EMACS -Q -batch -l promql-mode-words.el -l promql-mode-eldoc.el -l promql-mode.el -l t/test-helper.el -l t/aggregations.el -f ert-run-tests-batch-and-exit
