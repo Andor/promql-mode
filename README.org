@@ -1,2 +1,5 @@
+#+CAPTION: A black cat stalking a spider
+#+ATTR_HTML: :alt travis status
+[[https://travis-ci.org/Andor/promql-mode.svg?branch=master]]
 * promql-mode
   basic major mode for emacs for editing files with prometheus.io promql syntax
