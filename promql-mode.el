@@ -17,6 +17,11 @@
 ;;; Code:
 
 ;; generate aggregation operators regexps
+(require 'subr-x) ;; for hash-table-keys
+
+(require 'promql-mode-words)
+(require 'promql-mode-eldoc)
+
 (defvar promql-mode-aggregations
   (regexp-opt
    '("sum"
@@ -36,51 +41,7 @@
 ;; generate functions regexps
 (defvar promql-mode-functions
   (regexp-opt
-   '("abs"
-     "absent"
-     "ceil"
-     "changes"
-     "clamp_max"
-     "clamp_min"
-     "count_scalar"
-     "day_of_month"
-     "day_of_week"
-     "days_in_month"
-     "delta"
-     "deriv"
-     "drop_common_labels"
-     "exp"
-     "floor"
-     "histogram_quantile"
-     "holt_winters"
-     "hour"
-     "idelta"
-     "increase"
-     "irate"
-     "label_replace"
-     "ln"
-     "log2"
-     "log10"
-     "month"
-     "predict_linear"
-     "rate"
-     "resets"
-     "round"
-     "scalar"
-     "sort"
-     "sort_desc"
-     "sqrt"
-     "time"
-     "vector"
-     "year"
-     "sum_over_time"
-     "min_over_time"
-     "max_over_time"
-     "avg_over_time"
-     "stddev_over_time"
-     "stdvar_over_time"
-     "count_over_time"
-     "quantile_over_time")
+   (hash-table-keys promql-mode--functions)
    'words)
   "Regexp for matching functions for `promql-mode'.")
 
@@ -88,8 +49,8 @@
 ;; each category of keyword is given a particular face
 (defvar promql-mode-font-lock-keywords
   `(
-    (,promql-mode-aggregations . font-lock-keyword-face)
-    (,promql-mode-functions . font-lock-function-name-face))
+    (,promql-mode-functions . font-lock-function-name-face)
+    (,promql-mode-aggregations . font-lock-keyword-face))
   "Font lock for `promql-mode'.")
 
 (defvar promql-mode-syntax-table
@@ -99,12 +60,10 @@
   "Syntax table for `promql-mode'.")
 
 ;;;###autoload
-(define-derived-mode promql-mode prog-mode
-  "promql mode"
+(define-derived-mode promql-mode prog-mode "promql" ()
   "Major mode for editing prometheus.io query language"
   (set-syntax-table promql-mode-syntax-table)
-  (setq font-lock-defaults '(promql-mode-font-lock-keywords))
-  )
+  (setq font-lock-defaults '(promql-mode-font-lock-keywords)))
 
 ;; add the mode to the `features' list
 (provide 'promql-mode)
